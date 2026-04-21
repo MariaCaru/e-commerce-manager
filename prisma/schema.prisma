@@ -1,15 +1,29 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // ler do arquivo .env
+}
+
+// Modelo para o administrativo
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique // Garante que não existam duplicatas
+  password  String   // Armazenada de forma criptografada 
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+// Modelo para o catálogo de e-commerce
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String
+  price       Float
+  quantity    Int      @default(0) // <--- coração do estoque
+  image       String?
+  createdAt   DateTime @default(now())
 }
