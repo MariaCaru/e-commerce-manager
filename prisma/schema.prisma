@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL") // ler do arquivo .env
+  url      = env("DATABASE_URL") 
 }
 
 // Modelo para o administrativo
