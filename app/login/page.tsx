@@ -1,126 +1,111 @@
-"use client"; // Necessário para usar hooks como useState
+"use client";
 
 import { useState } from "react";
-import { Mail, Lock, Loader2, Package } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Package } from "lucide-react";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  // Função para simular o login enquanto o backend não chega
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
 
-    // Simulando um delay de rede
-    setTimeout(() => {
-      setIsLoading(false);
-      // Aqui você poderia simular um erro para testar o visual:
-      // setError("E-mail ou senha inválidos.");
-    }, 2000);
-  };
+        try {
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
 
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-zinc-50 to-zinc-200 px-4 dark:from-zinc-950 dark:to-zinc-900">
-      
-      {/* Logo ou Ícone do Sistema */}
-      <div className="mb-6 flex items-center gap-2">
-        <div className="rounded-lg bg-blue-600 p-2 text-white shadow-lg">
-          <Package size={32} />
-        </div>
-        <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          StockMaster <span className="text-blue-600">.</span>
-        </h2>
-      </div>
+            if (res?.error) {
+                setError(res.error);
+                setLoading(false);
+            } else {
+                router.push("/dashboard");
+                router.refresh();
+            }
+        } catch (err) {
+            setError("Ocorreu um erro ao fazer login.");
+            setLoading(false);
+        }
+    };
 
-      <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white/80 shadow-2xl backdrop-blur-sm dark:bg-zinc-900/50 dark:border dark:border-zinc-800">
-        <div className="p-8">
-          
-          {/* Cabeçalho */}
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-              Bem-vindo de volta
-            </h1>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Acesse sua conta para gerenciar o estoque.
-            </p>
-          </div>
-
-          {/* Mensagem de Erro Simulada */}
-          {error && (
-            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="flex flex-col gap-5">
-            {/* Campo E-mail */}
-            <div className="space-y-1">
-              <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                E-mail
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="exemplo@senac.com.br"
-                  className="w-full rounded-lg border border-zinc-300 bg-white pl-10 pr-3 py-2 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white outline-none"
-                  required
-                />
-              </div>
+    return (
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="flex justify-center">
+                    <div className="rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 p-3 text-white shadow-lg shadow-blue-500/30">
+                        <Package size={32} strokeWidth={2.5} />
+                    </div>
+                </div>
+                <h2 className="mt-6 text-center text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
+                    StockMaster<span className="text-blue-500">.</span>
+                </h2>
+                <p className="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">
+                    Faça login para acessar o painel administrativo
+                </p>
+                <div className="mt-2 text-center text-xs font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 p-2 rounded-lg border border-amber-200 dark:border-amber-500/20">
+                    Dica: Se for o primeiro acesso, digite <b>admin@stockmaster.com</b> com qualquer senha para criar o admin automaticamente.
+                </div>
             </div>
 
-            {/* Campo Senha */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                  Senha
-                </label>
-                <a href="#" className="text-xs text-blue-600 hover:underline">Esqueceu a senha?</a>
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="••••••••"
-                  className="w-full rounded-lg border border-zinc-300 bg-white pl-10 pr-3 py-2 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white outline-none"
-                  required
-                />
-              </div>
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white dark:bg-zinc-900 py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-zinc-200 dark:border-zinc-800">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        {error && (
+                            <div className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm text-center border border-red-200 dark:border-red-500/20 font-medium">
+                                {error}
+                            </div>
+                        )}
+                        <div>
+                            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                                Email
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="appearance-none block w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-lg shadow-sm placeholder-zinc-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-zinc-950 dark:text-white transition-colors"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                                Senha
+                            </label>
+                            <div className="mt-1">
+                                <input
+                                    type="password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="appearance-none block w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-lg shadow-sm placeholder-zinc-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-zinc-950 dark:text-white transition-colors"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-lg shadow-blue-500/25 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
+                            >
+                                {loading ? "Entrando..." : "Entrar"}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            {/* Botão de Login com Loading */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative mt-2 flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-700 active:scale-[0.98] disabled:opacity-70"
-            >
-              {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-white" />
-              ) : (
-                "Acessar Painel"
-              )}
-            </button>
-          </form>
         </div>
-
-        {/* Rodapé do Card */}
-        <div className="bg-zinc-50 px-8 py-4 text-center dark:bg-zinc-800/50">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            Problemas com o acesso? <a href="#" className="text-blue-600 font-medium hover:underline">Fale com o TI</a>
-          </p>
-        </div>
-      </div>
-      
-      {/* Créditos do Grupo (Opcional para o PI) */}
-      <footer className="mt-8 text-xs text-zinc-400">
-        Grupo: Estér, Maria, Tiago, Thiago e Otávio • Senac 2026
-      </footer>
-    </div>
-  );
+    );
 }
