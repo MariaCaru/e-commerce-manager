@@ -10,6 +10,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    // Fechar o menu no mobile sempre que a rota mudar
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [pathname]);
+
     const links = [
         { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
         { href: "/dashboard/products", icon: Package, label: "Produtos" }

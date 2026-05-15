@@ -3,16 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
-declare module "next-auth" {
-    interface Session {
-        user: {
-            id: string;
-            email?: string | null;
-            name?: string | null;
-        }
-    }
-}
-
 export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
@@ -76,7 +66,7 @@ export const authOptions: AuthOptions = {
         },
         async session({ session, token }) {
             if (session.user) {
-                session.user.id = token.id as string;
+                (session.user as any).id = token.id;
             }
             return session;
         }
