@@ -1,14 +1,25 @@
 import { ArrowUpRight, ArrowDownRight, DollarSign, Package, ShoppingCart, Users, TrendingUp, Activity, UserCircle } from "lucide-react";
+import prisma from "@/lib/prisma";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+    const productCount = await prisma.product.count();
+    const allProducts = await prisma.product.findMany();
+    const totalInventoryValue = allProducts.reduce(
+        (acc, curr) => acc + curr.price * curr.quantity, 0
+    );
+
     const stats = [
         { 
-            title: "Receita Total", value: "R$ 45.231,89", change: "+20.1%", isPositive: true, icon: DollarSign, 
+            title: "Receita Total", 
+            value: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalInventoryValue), 
+            change: "+20.1%", isPositive: true, icon: DollarSign, 
             colorClass: "bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400",
             bgDecoration: "bg-blue-50 dark:bg-blue-500/10"
         },
         { 
-            title: "Produtos Ativos", value: "1.204", change: "+12.5%", isPositive: true, icon: Package, 
+            title: "Produtos Ativos", 
+            value: productCount.toLocaleString('pt-BR'), 
+            change: "+12.5%", isPositive: true, icon: Package, 
             colorClass: "bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400",
             bgDecoration: "bg-indigo-50 dark:bg-indigo-500/10"
         },
