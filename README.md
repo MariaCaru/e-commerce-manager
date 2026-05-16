@@ -1,39 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StockMaster - um sistema de gestão de e-commerce
 
-## Getting Started
+Sistema de gerenciamento de produtos para e-commerce, desenvolvido com Next.js, TypeScript e Prisma como parte da segunda entrega do Projeto Integrador: Análise De Soluções Integradas para Organizações para o curso de Análise e Desenvolvimento de Sistemas no Senac EAD.
+O projeto oferece um painel administrativo para criar, editar, visualizar e excluir produtos, além de uma API interna para integração com a futura vitrine pública.
 
-First, run the development server:
+## Funcionalidades
+
+- Autenticação de usuários (login/logout)
+- Dashboard administrativo protegido
+- CRUD completo de produtos (nome, descrição, preço, estoque, imagem)
+- Validação de dados com Zod
+- Persistência em banco de dados SQLite via Prisma ORM
+- Interface responsiva com Tailwind CSS
+- Utilização de Server Actions do Next.js para operações no servidor
+- API RESTful para listagem e criação de produtos
+
+## Tecnologias
+
+- [Next.js 14](https://nextjs.org/) (App Router)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Prisma ORM](https://www.prisma.io/)
+- [SQLite](https://www.sqlite.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Zod](https://zod.dev/)
+
+
+
+## Modelagem do Banco de Dados
+
+O banco de dados relacional é composto por duas entidades principais, `User` e `Product`, com um relacionamento de um para muitos.
+
+```mermaid
+erDiagram
+    User {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        datetime createdAt
+        datetime updatedAt
+    }
+    Product {
+        int id PK
+        string name
+        string description
+        float price
+        int stock
+        string image
+        int userId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+    User ||--o{ Product : "gerencia"
+```
+
+
+Um **usuário** (vendedor ou administrador) pode gerenciar múltiplos **produtos**. A chave estrangeira `userId` na tabela `Product` estabelece esse vínculo.
+
+## Pré-requisitos
+
+- Node.js 18.17 ou superior
+- npm ou yarn
+
+## Configuração e Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/MariaCaru/e-commerce-manager.git
+   cd e-commerce-manager
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Gere o cliente Prisma:
+   ```bash
+   npx prisma generate
+   ```
+
+## Executando o Projeto
+
+Para rodar o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000/login` no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Login admin@stockmaster.com
+- Senha: 123
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts Disponíveis
 
-## Learn More
+- `dev`: inicia o ambiente de desenvolvimento
+- `build`: gera a versão de produção
+- `start`: inicia o servidor em modo de produção
+- `lint`: executa a verificação de código com ESLint
 
-To learn more about Next.js, take a look at the following resources:
+## Estrutura de Pastas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+e-commerce-manager/
+├── app/
+│   ├── actions/         # Server Actions (productActions, etc.)
+│   ├── api/
+│   │   └── products/    # API Routes (REST)
+│   ├── components/      # Componentes reutilizáveis
+│   ├── dashboard/       # Páginas do painel administrativo
+│   ├── login/           # Página de login
+│   └── page.tsx         # Página inicial (vitrine)
+├── lib/                 # Configuração do Prisma e utilitários
+├── prisma/
+│   ├── schema.prisma    # Modelo do banco de dados
+│   └── dev.db           # Banco SQLite (gerado após migração)
+├── public/              # Arquivos estáticos
+├── utils/               # Funções auxiliares (formatação, etc.)
+└── .env                 # Variáveis de ambiente
+```
 
 
 # Documentação Técnica: Backend e Arquitetura
@@ -97,3 +185,6 @@ Para garantir a consistência visual do MVP conforme o protótipo, utilize o uti
     Visualização de Dados: Utilize o comando `npx prisma studio` para abrir o painel visual de gerenciamento das tabelas.
 
     Migrações: Qualquer alteração no arquivo schema.prisma exige a execução de `npx prisma migrate dev` para atualizar o banco local dev.db.
+
+## Contribuidores
+<div align="center"> <table> <tr> <td align="center"> <a href="https://github.com/tiaaago"> <img src="docs/assets/team-photos/Tiago Enzo.jpeg" width="100" style="border-radius:50%"/> <br/> <sub><b>Tiago Enzo</b></sub> </a> </td> <td align="center"> <a href="https://github.com/darokyz"> <img src="docs/assets/team-photos/Otavio Amaral.jpeg" width="100" style="border-radius:50%"/> <br/> <sub><b>Otavio Amaral</b></sub> </a> </td> <td align="center"> <a href="https://github.com/EsterHB"> <img src="docs/assets/team-photos/Ester.jpeg" width="100" style="border-radius:50%"/> <br/> <sub><b>Ester Barbosa</b></sub> </a> </td> <td align="center"> <a href="https://github.com/MariaCaru"> <img src="docs/assets/team-photos/Maria.png" width="100" style="border-radius:50%"/> <br/> <sub><b>Maria Carolina</b></sub> </a> </td> <td align="center"> <a href="https://github.com/thiagolcf"> <img src="docs/assets/team-photos/Thiago.jpg" width="100" style="border-radius:50%"/> <br/> <sub><b>Thiago Lopes</b></sub> </a> </td> </tr> </table> </div>
