@@ -100,19 +100,24 @@ export default async function DashboardPage() {
                     </div>
                     
                     <div className="space-y-6">
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className="flex items-center justify-between group">
+                        {[
+                            { id: 1, amount: "R$ 234.50" },
+                            { id: 2, amount: "R$ 412.75" },
+                            { id: 3, amount: "R$ 189.25" },
+                            { id: 4, amount: "R$ 356.00" },
+                        ].map((item) => (
+                            <div key={item.id} className="flex items-center justify-between group">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-500/10 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                         <UserCircle size={24} />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-zinc-900 dark:text-white">Cliente {item}</p>
-                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">cliente{item}@exemplo.com</p>
+                                        <p className="font-semibold text-zinc-900 dark:text-white">Cliente {item.id}</p>
+                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">cliente{item.id}@exemplo.com</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="font-bold text-zinc-900 dark:text-white">+R$ {(Math.random() * 500).toFixed(2)}</p>
+                                    <p className="font-bold text-zinc-900 dark:text-white">+{item.amount}</p>
                                     <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Concluído</p>
                                 </div>
                             </div>
