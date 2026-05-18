@@ -1,0 +1,566 @@
+{
+  "info": {
+    "_postman_id": "e1d6dc5f-af6b-4015-8de5-eb62ce47e057",
+    "name": "e-commerce-manager",
+    "description": "# e-commerce-manager\n\nAPI para gerenciamento de produtos em uma plataforma de e-commerce. Permite criar, listar, atualizar e deletar produtos.\n\n**Base URL:** `http://localhost:3000`\n\n## Endpoints disponíveis\n\n| Método | Endpoint | Descrição |\n| --- | --- | --- |\n| GET | /api/products | Lista todos os produtos |\n| POST | /api/products | Cria um novo produto |\n| PATCH | /api/products/:id | Atualiza um produto existente |\n| DELETE | /api/products/:id | Deleta um produto |",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50246184",
+    "_collection_link": "https://go.postman.co/collection/50246184-e1d6dc5f-af6b-4015-8de5-eb62ce47e057?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Listar todos os produtos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "pm.test('Response time is less than 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "})",
+              "",
+              "pm.test('Response body is an array', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "})",
+              "",
+              "pm.test('Each product has an id property', function () {",
+              "    const jsonData = pm.response.json();",
+              "    if (jsonData.length > 0) {",
+              "        jsonData.forEach(function (product) {",
+              "            pm.expect(product).to.have.property('id');",
+              "        });",
+              "    }",
+              "})"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "Retorna a lista completa de todos os produtos cadastrados na plataforma.\n\n**Resposta de sucesso (200 OK):**\n\n``` json\n[\n  {\n    \"id\": \"cmpb8n8sa0004xv7w99648g8r\",\n    \"name\": \"Produto Exemplo\",\n    \"price\": 29.90\n  }\n]\n\n ```\n\n**Testes automatizados:**\n\n- Status code é 200\n    \n- Tempo de resposta menor que 2000ms\n    \n- Corpo da resposta é um array\n    \n- Cada item possui a propriedade `id`"
+      },
+      "response": [
+        {
+          "name": "Listar todos os produtos",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "vary",
+              "value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 18 May 2026 12:25:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": \"cmp8fuqca0000erxk2wfwlna3\",\n        \"name\": \"Mochila Masculina\",\n        \"description\": \"\",\n        \"category\": \"Acessórios\",\n        \"price\": 300,\n        \"quantity\": 100,\n        \"image\": \"https://m.media-amazon.com/images/I/51sYkM0eKeL._AC_SX522_.jpg\",\n        \"createdAt\": \"2026-05-16T14:25:25.979Z\"\n    },\n    {\n        \"id\": \"cmp8fhew10000erwcz6eswv5c\",\n        \"name\": \"Iphone 15\",\n        \"description\": \"\",\n        \"category\": \"Eletrônicos\",\n        \"price\": 17000,\n        \"quantity\": 200,\n        \"image\": \"https://m.media-amazon.com/images/I/41RpmPYWXLL._AC_SX342_SY445_QL70_ML2_.jpg\",\n        \"createdAt\": \"2026-05-16T14:15:04.605Z\"\n    },\n    {\n        \"id\": \"cmp64y9hm0000era806bio0z1\",\n        \"name\": \"Bolsa Feminina\",\n        \"description\": \"\",\n        \"category\": \"Acessórios\",\n        \"price\": 250,\n        \"quantity\": 150,\n        \"image\": \"https://img.lojasrenner.com.br/item/930832621/original/3.jpg\",\n        \"createdAt\": \"2026-05-14T23:44:42.634Z\"\n    },\n    {\n        \"id\": \"cmp5zdc6g0000erjs0y2y7f8w\",\n        \"name\": \"Tênis \",\n        \"description\": \"\",\n        \"category\": \"Calaçados\",\n        \"price\": 5000,\n        \"quantity\": 100,\n        \"image\": \"https://m.media-amazon.com/images/I/51GXKGCE8OL._AC_SY625_.jpg\",\n        \"createdAt\": \"2026-05-14T21:08:28.264Z\"\n    },\n    {\n        \"id\": \"cmp5yc9a70000erjgy1s0qowx\",\n        \"name\": \"Iphone 15\",\n        \"description\": \"\",\n        \"category\": \"Eletrônico\",\n        \"price\": 17000,\n        \"quantity\": 50,\n        \"image\": \"https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_SY445_QL70_ML2_.jpg\",\n        \"createdAt\": \"2026-05-14T20:39:38.235Z\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Criar um novo produto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "})",
+              "",
+              "pm.test('Response time is less than 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "})",
+              "",
+              "pm.test('Response body is an object', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('object');",
+              "})",
+              "",
+              "pm.test('Response body has an id property', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('id');",
+              "})",
+              "",
+              "pm.test('Response body has a name property', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('name');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Cookie",
+            "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Produto Teste\",\r\n  \"description\": \"Descrição do produto\",\r\n  \"category\": \"Categoria genérica\",\r\n  \"price\": 29.90,\r\n  \"quantity\": 100,\r\n  \"image\": \"https://exemplo.com/imagem.jpg\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "Cria um novo produto na plataforma. O corpo da requisição deve conter os dados do produto a ser criado.\n\n**Corpo da requisição (JSON):**\n\n``` json\n{\n  \"name\": \"Novo Produto\",\n  \"price\": 49.90\n}\n\n ```\n\n**Resposta de sucesso (201 Created):**\n\n``` json\n{\n  \"id\": \"cmpb8n8sa0004xv7w99648g8r\",\n  \"name\": \"Novo Produto\",\n  \"price\": 49.90\n}\n\n ```\n\n**Testes automatizados:**\n\n- Status code é 201\n    \n- Tempo de resposta menor que 2000ms\n    \n- Corpo da resposta é um objeto\n    \n- Resposta contém as propriedades `id` e `name`"
+      },
+      "response": [
+        {
+          "name": "Criar um novo produto",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Cookie",
+                "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Produto Teste\",\r\n  \"description\": \"Descrição do produto\",\r\n  \"category\": \"Categoria genérica\",\r\n  \"price\": 29.90,\r\n  \"quantity\": 100,\r\n  \"image\": \"https://exemplo.com/imagem.jpg\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "vary",
+              "value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 18 May 2026 12:31:28 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"cmpb6nvzx0000xvqg4vpvx72a\",\n    \"name\": \"Produto Teste\",\n    \"description\": \"Descrição do produto\",\n    \"category\": \"Categoria genérica\",\n    \"price\": 29.9,\n    \"quantity\": 100,\n    \"image\": \"https://exemplo.com/imagem.jpg\",\n    \"createdAt\": \"2026-05-18T12:31:28.702Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Atualizar um produto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "pm.test('Response time is less than 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "})",
+              "",
+              "pm.test('Response body is an object', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('object');",
+              "})",
+              "",
+              "pm.test('Response body has an id property', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('id');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Cookie",
+            "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Produto Teste Atualizado\",\r\n  \"price\": 39.90\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/products/cmpb8n8sa0004xv7w99648g8r",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products",
+            "cmpb8n8sa0004xv7w99648g8r"
+          ]
+        },
+        "description": "Atualiza os dados de um produto existente. Substitua `:id` pelo identificador único do produto que deseja atualizar.\n\n**Parâmetros de URL:**\n\n- `id` (obrigatório): Identificador único do produto (ex: `cmpb8n8sa0004xv7w99648g8r`)\n    \n\n**Corpo da requisição (JSON):**\n\n``` json\n{\n  \"name\": \"Produto Atualizado\",\n  \"price\": 39.90\n}\n\n ```\n\n**Resposta de sucesso (200 OK):**\n\n``` json\n{\n  \"id\": \"cmpb8n8sa0004xv7w99648g8r\",\n  \"name\": \"Produto Atualizado\",\n  \"price\": 39.90\n}\n\n ```\n\n**Testes automatizados:**\n\n- Status code é 200\n    \n- Tempo de resposta menor que 2000ms\n    \n- Corpo da resposta é um objeto\n    \n- Resposta contém a propriedade `id`"
+      },
+      "response": [
+        {
+          "name": "Atualizar um produto",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Cookie",
+                "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Tênis Atualizado\",\r\n  \"price\": 4500,\r\n  \"quantity\": 80\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/products/cmp5zdc6g0000erjs0y2y7f8w",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "products",
+                "cmp5zdc6g0000erjs0y2y7f8w"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "vary",
+              "value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 18 May 2026 12:38:00 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"cmp5zdc6g0000erjs0y2y7f8w\",\n    \"name\": \"Tênis Atualizado\",\n    \"description\": \"\",\n    \"category\": \"Calaçados\",\n    \"price\": 4500,\n    \"quantity\": 80,\n    \"image\": \"https://m.media-amazon.com/images/I/51GXKGCE8OL._AC_SY625_.jpg\",\n    \"createdAt\": \"2026-05-14T21:08:28.264Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Deletar um produto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 or 204', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([",
+              "        200,",
+              "        204",
+              "    ]);",
+              "})",
+              "",
+              "pm.test('Response time is less than 2000ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "})",
+              "",
+              "pm.test('Response body validation', function () {",
+              "    if (pm.response.code === 200 && pm.response.text().length > 0) {",
+              "        const jsonData = pm.response.json();",
+              "        pm.expect(jsonData).to.be.an('object');",
+              "    }",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/products/cmpb8n8sa0004xv7w99648g8r",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "products",
+            "cmpb8n8sa0004xv7w99648g8r"
+          ]
+        },
+        "description": "Remove permanentemente um produto da plataforma. Substitua `:id` pelo identificador único do produto que deseja deletar.\n\n**Parâmetros de URL:**\n\n- `id` (obrigatório): Identificador único do produto (ex: `cmpb8n8sa0004xv7w99648g8r`)\n    \n\n**Resposta de sucesso:** 200 OK ou 204 No Content\n\n**Testes automatizados:**\n\n- Status code é 200 ou 204\n    \n- Tempo de resposta menor que 2000ms\n    \n- Validação do corpo da resposta (quando status 200)"
+      },
+      "response": [
+        {
+          "name": "Deletar um produto",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "next-auth.session-token=<eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..JxSL89VeR1jQLH8A.4biYc3sbFm_4n4ra1LW38LMPead6lqyLL8s8q8A__Vugu4BUYLZPEV8BmnWZ-OqE17Kgo7Gmlh0cf9oYzidFIyJ2gcfXUBH16F44bzoWxQx6e_9wEM7X5jHX3jp-v_Ei3xvZw9c-yUCuliUjMmgMkffu2-EuEXOmu0KAJltj2D1WsF8WstgPX5SMpsum9heTzMvlVqtKgd3_vUYSP7JXlfzUmKu4Pj05A7rcqmdMWw9FuYzN-bkp9raA98NJERxkEpg.-XnG5RAC30Mo2YgwDG__WQ>",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/products/cmp5zdc6g0000erjs0y2y7f8w",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "products",
+                "cmp5zdc6g0000erjs0y2y7f8w"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "vary",
+              "value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 18 May 2026 12:39:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"Produto removido com sucesso\"\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
