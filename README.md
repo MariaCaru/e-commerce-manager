@@ -126,6 +126,279 @@ e-commerce-manager/
 
 # Documentação Técnica: Backend e Arquitetura
 
+
+## Testes 
+
+**Base URL:** `http://localhost:3000`
+
+## Endpoints disponíveis
+
+| Método | Endpoint | Descrição |
+| --- | --- | --- |
+| GET | /api/products | Lista todos os produtos |
+| POST | /api/products | Cria um novo produto |
+| PATCH | /api/products/:id | Atualiza um produto existente |
+| DELETE | /api/products/:id | Deleta um produto |
+
+### GET Listar todos os produtos
+
+`http://localhost:3000/api/products`
+
+Retorna a lista completa de todos os produtos cadastrados na plataforma.
+
+**Resposta de sucesso (200 OK):**
+
+``` json
+[
+  {
+    "id": "cmpb8n8sa0004xv7w99648g8r",
+    "name": "Produto Exemplo",
+    "price": 29.90
+  }
+]
+
+ ```
+
+**Testes automatizados:**
+
+- Status code é 200
+- Tempo de resposta menor que 2000ms
+- Corpo da resposta é um array
+    
+##### Exemplo
+
+*Requisição*
+
+`postman request 'http://localhost:3000/api/products'`
+
+*Resposta*
+
+``` json
+[
+    {
+        "id": "cmp8fuqca0000erxk2wfwlna3",
+        "name": "Mochila Masculina",
+        "description": "",
+        "category": "Acessórios",
+        "price": 300,
+        "quantity": 100,
+        "image": "https://m.media-amazon.com/images/I/51sYkM0eKeL._AC_SX522_.jpg",
+        "createdAt": "2026-05-16T14:25:25.979Z"
+    },
+    {
+        "id": "cmp8fhew10000erwcz6eswv5c",
+        "name": "Iphone 15",
+        "description": "",
+        "category": "Eletrônicos",
+        "price": 17000,
+        "quantity": 200,
+        "image": "https://m.media-amazon.com/images/I/41RpmPYWXLL._AC_SX342_SY445_QL70_ML2_.jpg",
+        "createdAt": "2026-05-16T14:15:04.605Z"
+    },
+    {
+        "id": "cmp64y9hm0000era806bio0z1",
+        "name": "Bolsa Feminina",
+        "description": "",
+        "category": "Acessórios",
+        "price": 250,
+        "quantity": 150,
+        "image": "https://img.lojasrenner.com.br/item/930832621/original/3.jpg",
+        "createdAt": "2026-05-14T23:44:42.634Z"
+    },
+    {
+        "id": "cmp5zdc6g0000erjs0y2y7f8w",
+        "name": "Tênis ",
+        "description": "",
+        "category": "Calaçados",
+        "price": 5000,
+        "quantity": 100,
+        "image": "https://m.media-amazon.com/images/I/51GXKGCE8OL._AC_SY625_.jpg",
+        "createdAt": "2026-05-14T21:08:28.264Z"
+    },
+    {
+        "id": "cmp5yc9a70000erjgy1s0qowx",
+        "name": "Iphone 15",
+        "description": "",
+        "category": "Eletrônico",
+        "price": 17000,
+        "quantity": 50,
+        "image": "https://m.media-amazon.com/images/I/416MG51rNgL._AC_SX342_SY445_QL70_ML2_.jpg",
+        "createdAt": "2026-05-14T20:39:38.235Z"
+    }
+]
+
+
+```
+
+
+### POST Criar um produto
+
+Cria um novo produto na plataforma. O corpo da requisição deve conter os dados do produto a ser criado.
+
+**Corpo da requisição (JSON):**
+
+``` json
+{
+  "name": "Novo Produto",
+  "price": 49.90
+}
+
+```
+
+**Resposta de sucesso (201):**
+
+``` json
+{
+  "id": "cmpb8n8sa0004xv7w99648g8r",
+  "name": "Novo Produto",
+  "price": 49.90
+}
+
+
+```
+
+**Testes automatizados:**
+- Status code é 201
+- Tempo de resposta menor que 2000ms
+- Corpo da resposta é um objeto
+
+##### Exemplo
+
+*Requisição*
+
+``` json
+
+postman request POST 'http://localhost:3000/api/products'
+  --body '{
+  "name": "Produto Teste",
+  "description": "Descrição do produto",
+  "category": "Categoria genérica",
+  "price": 29.90,
+  "quantity": 100,
+  "image": "https://exemplo.com/imagem.jpg"
+}
+'
+
+```
+
+*Reposta*
+
+``` json
+
+{
+    "id": "cmpb6nvzx0000xvqg4vpvx72a",
+    "name": "Produto Teste",
+    "description": "Descrição do produto",
+    "category": "Categoria genérica",
+    "price": 29.9,
+    "quantity": 100,
+    "image": "https://exemplo.com/imagem.jpg",
+    "createdAt": "2026-05-18T12:31:28.702Z"
+}
+
+```
+
+
+### PATCH atualizar um produto
+
+`http://localhost:3000/api/products/id`
+
+Atualiza os dados de um produto existente. Substitua `:id` pelo identificador único do produto que deseja atualizar.
+
+**Parâmetros de URL:**
+
+- `id` (obrigatório): Identificador único do produto (ex: `cmpb8n8sa0004xv7w99648g8r`)
+    
+
+**Corpo da requisição (JSON):**
+
+``` json
+{
+  "name": "Produto Atualizado",
+  "price": 39.90
+}
+
+ ```
+
+**Resposta de sucesso (200 OK):**
+
+``` json
+{
+  "id": "cmpb8n8sa0004xv7w99648g8r",
+  "name": "Produto Atualizado",
+  "price": 39.90
+}
+
+ ```
+
+**Testes automatizados:**
+
+- Status code é 200
+- Tempo de resposta menor que 2000ms
+- Corpo da resposta é um objeto
+
+#### Exemplos
+
+*Requisição:*
+``` json
+postman request PATCH 'http://localhost:3000/api/products/cmp5zdc6g0000erjs0y2y7f8w' \
+  --body '{
+  "name": "Tênis Atualizado",
+  "price": 4500,
+  "quantity": 80
+}'
+```
+
+*Resposta:*
+
+``` json
+{
+    "id": "cmp5zdc6g0000erjs0y2y7f8w",
+    "name": "Tênis Atualizado",
+    "description": "",
+    "category": "Calaçados",
+    "price": 4500,
+    "quantity": 80,
+    "image": "https://m.media-amazon.com/images/I/51GXKGCE8OL._AC_SY625_.jpg",
+    "createdAt": "2026-05-14T21:08:28.264Z"
+}
+```
+
+
+### DELETE Deletar um produto
+
+`http://localhost:3000/api/products/id`
+
+Remove permanentemente um produto da plataforma. Substitua `:id` pelo identificador único do produto que deseja deletar.
+
+**Parâmetros de URL:**
+
+- `id` (obrigatório): Identificador único do produto (ex: `cmpb8n8sa0004xv7w99648g8r`)
+    
+
+**Resposta de sucesso:** 200 OK ou 204 No Content
+
+**Testes automatizados:**
+
+- Status code é 200 ou 204
+- Tempo de resposta menor que 2000ms
+- Validação do corpo da resposta (quando status 200)
+
+### Exemplo:
+*Requisição:*
+``` json
+postman request DELETE 'http://localhost:3000/api/products/cmp5zdc6g0000erjs0y2y7f8w' 
+```
+
+*Resposta:*
+
+``` json
+{
+    "message": "Produto removido com sucesso"
+}
+
+```
+---------
 Esta seção detalha a infraestrutura de dados e as funções de servidor (Server Actions) para o gerenciamento de estoque, utilizando Next.js (App Router), Prisma ORM e SQLite.
 
 1. **Banco de Dados e Persistência**
